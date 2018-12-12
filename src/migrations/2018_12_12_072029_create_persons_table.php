@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePersonTable extends Migration
+class CreatePersonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePersonTable extends Migration
      */
     public function up()
     {
-        Schema::create('person', function (Blueprint $table) {
+        Schema::create('persons', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email', 150)->unique();
             $table->tinyInteger('verified')->default(0);
@@ -29,6 +29,6 @@ class CreatePersonTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('person');
+        Schema::dropIfExists('persons');
     }
 }
