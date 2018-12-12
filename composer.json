@@ -1,0 +1,11 @@
+{
+  "name" : "bahraminekoo/larauth",
+  "description" : "authentication wizard package for laravel 5.7",
+  "type" : "library",
+  "authors" : [{
+    "name" : "Ho.Bahram",
+    "email" : "ho.bahram@gmail.com"
+  }
+  ],
+  "minimum-stability" : "dev"
+}
