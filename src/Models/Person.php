@@ -4,11 +4,11 @@ namespace Bahraminekoo\Larauth\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Hash;
+use Bahraminekoo\Larauth\Scopes\IsVerified;
 use Bahraminekoo\Larauth\Traits\Normalizable;
 
 class Person extends Model
 {
-    use Normalizable;
 
     protected $kind = "user";
 
@@ -22,6 +22,18 @@ class Person extends Model
     protected $appends = [
         'kind',
         ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new IsVerified());
+    }
 
     public function getKindAttribute()
     {
