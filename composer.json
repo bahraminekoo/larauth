@@ -7,5 +7,12 @@
     "email" : "ho.bahram@gmail.com"
   }
   ],
-  "minimum-stability" : "dev"
+  "minimum-stability" : "dev",
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Bahraminekoo\\Larauth\\LarauthServiceProvider"
+      ]
+    }
+  }
 }

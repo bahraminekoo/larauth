@@ -15,6 +15,8 @@ class LarauthServiceProvider extends ServiceProvider
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/routes/routes.php';
         }
+        $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
     }
 
     /**
