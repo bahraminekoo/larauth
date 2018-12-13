@@ -9,6 +9,7 @@ use Bahraminekoo\Larauth\Traits\Normalizable;
 
 class Person extends Model
 {
+    use Normalizable;
 
     protected $kind = "user";
 

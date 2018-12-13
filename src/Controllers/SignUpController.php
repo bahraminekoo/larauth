@@ -25,9 +25,19 @@ class SignUpController extends Controller
         $user->email = $email;
         $user->password = $request->input('password');
         $user->token = $hash;
+        $user->verified = 0;
         $user->save();
 
-        Mail::to($email)->send(new VerifyEmail($email, $request->input('password'), $hash));
+        try {
+            Mail::to($email)->send(new VerifyEmail($email, $request->input('password'), $hash));
+        } catch (\Swift_TransportException $e) {
+
+            return response()->json([
+                'status' => true,
+                'message' => ['register successful, but can not send verification email, you should set up mail configuration in your laravel application'],
+                'data' => $user->normalize(),
+            ]);
+        }
 
         return response()->json([
             'status' => true,
@@ -39,7 +49,7 @@ class SignUpController extends Controller
     public function verifyEmail(Request $request, $email, $hash)
     {
 
-        $user = Person::where('email' => $email, 'token' => $hash)->firstOrFail();
+        $user = Person::withoutGlobalScopes()->where('email', $email)->where('token', $hash)->firstOrFail();
         $user->verified = 1;
         $user->save();
 

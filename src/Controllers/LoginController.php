@@ -18,8 +18,15 @@ class LoginController extends Controller
     {
         $email = $request->input('email');
         $password = $request->input('password');
+        try {
+            $user = Person::where('email', $email)->firstOrFail();
+        } catch (\Exception $e) {
 
-        $user = Person::where('email', $email)->firstOrFail();
+            return response()->json([
+                'status' => false,
+                'message' => ['login not successful'],
+            ]);
+        }
 
         if (Hash::check($password, $user->password)) {
 

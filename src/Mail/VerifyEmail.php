@@ -12,6 +12,7 @@ class VerifyEmail extends Mailable
 
     protected $email;
     protected $password;
+    protected $hash;
 
     /**
      * Create a new message instance.
@@ -22,6 +23,7 @@ class VerifyEmail extends Mailable
     {
         $this->email = $email;
         $this->password = $password;
+        $this->hash = $hash;
     }
 
     /**
@@ -32,11 +34,11 @@ class VerifyEmail extends Mailable
     public function build()
     {
         return $this
-            ->view('emails.verification_code')
+            ->view('vendor.larauth.emails.verification_code')
             ->with([
                 'email' => $this->email,
                 'password' => $this->password,
-                'hash' => $hash,
+                'hash' => $this->hash,
             ]);
     }
 }
