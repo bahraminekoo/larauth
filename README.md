@@ -19,67 +19,129 @@ Laravel 5.7
 ### Installing
 
 ```
-Give the example
-```
+issue the following command in your laravel root directory :
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+composer install bahraminekoo/larauth
 
 ```
-Give an example
+
+In laravel <=5.4  :
+
+add the line below to the **providers** array of the config/app.php configuration file :
+
+Bahraminekoo\Larauth\LarauthServiceProvider::class
+
+In laravel >=5.5 this service provider will be automatically added to the providers array .
+
+And then
+
+```
+run the following commands also in the laravel root directory respectively:
+
+php artisan vendor:publish --tag=migrations
+
+php artisan vendor:publish --tag=views
+
+php artisan migrate
+
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
+and then 
 
 ```
-Give an example
+set up your laravel mail server configs inside config/mail.php
 ```
 
-## Deployment
+Now we have three REST API that we can use for authentication purposes :
 
-Add additional notes about how to deploy this on a live system
+1 - 
 
-## Built With
+    * [POST] /auth/register
+    
+    headers :
+    
+      Accept : application/json
+      Content-Type : application/json
+      
+    Request :
+       
+      {
+      	"email": "email@gmail.com",
+      	"password": "password"
+      }
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+    Response :
+    
+    {
+        "status": true,
+        "message": [
+            "register successful, but can not send verification email, you should set up mail configuration in your laravel application"
+        ],
+        "data": {
+            "kind": "user",
+            "id": 7,
+            "email": "email@gmail.com",
+            "isVerified": 0
+        }
+    }
+    
+2 - 
 
-## Contributing
+     this link should be inside the email inbox after registration
+     
+    *   [GET] /auth/verify-email/email@gmail.com/hash-string-value 
+    
+    headers : 
+    
+        Accept : application/json
+        Content-Type : application/json
+    
+    Request :
+    
+        none
+        
+    Response :
+    
+        {
+            "status": true,
+            "message": [
+                "activation successful, now you can log into your account"
+            ],
+            "data": {
+                "kind": "user",
+                "id": 7,
+                "email": "email@gmail.com",
+                "isVerified": 1
+            }
+        } 
+        
+3 - 
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+    * [POST] /auth/login
+    
+    headers : 
+     
+       Accept : application/json
+       Content-Type: application/json
+       
+    Request :
+    
+        {
+        	"email": "email@gmail.com",
+        	"password": "password"
+        } 
+        
+    Response : 
+    
+        {
+            "status": true,
+            "message": [
+                "login successful"
+            ],
+            "data": {
+                "kind": "user",
+                "id": 7,
+                "email": "email@gmail.com",
+                "isVerified": 1
+            }
+        }                     
