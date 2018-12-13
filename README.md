@@ -21,7 +21,7 @@ Laravel 5.7
 ```
 issue the following command in your laravel root directory :
 
-composer install bahraminekoo/larauth
+composer require bahraminekoo/larauth
 
 ```
 
